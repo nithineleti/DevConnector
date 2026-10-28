@@ -33,8 +33,12 @@ app.use('/api/profiles', require('./routes/profiles'));
 app.use('/api/projects', require('./routes/projects'));
 
 
-// Root route (optional)
+// Root route: send visitors straight to the frontend
 app.get('/', (req, res) => {
+  res.redirect('/app');
+});
+
+app.get('/api', (req, res) => {
   res.send('Welcome to DevConnector API!');
 });
 
