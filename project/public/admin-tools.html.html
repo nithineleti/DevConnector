@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Admin Tools</title>
+</head>
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">DevConnector</h1>
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="projects.html">Projects</a>
+      <a href="profiles.html">Profiles</a>
+      <a href="admin-tools.html">Admin Tools</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+<body>
+  <h1>Admin Panel</h1>
+
+  <!-- View All Projects -->
+  <section>
+    <h2>View All Projects</h2>
+    <div class="content-box">
+      <button id="viewProjectsBtn">Load Projects</button>
+      <pre id="projectsOutput"></pre>
+    </div>
+  </section>
+
+  <!-- View All Profiles -->
+  <section>
+    <h2>View All Profiles</h2>
+    <div class="content-box">
+      <button id="viewProfilesBtn">Load Profiles</button>
+      <pre id="profilesOutput"></pre>
+    </div>
+  </section>
+
+  <!-- Delete Project by ID -->
+  <section>
+    <h2>Delete Project by ID</h2>
+    <form id="deleteProjectForm">
+      <input type="text" name="projectId" placeholder="Project ID" required /><br />
+      <button type="submit">Delete Project</button>
+    </form>
+    <p id="deleteProjectMessage"></p>
+  </section>
+
+  <!-- Delete Profile by User ID -->
+  <section>
+    <h2>Delete Profile by User ID</h2>
+    <form id="deleteProfileForm">
+      <input type="text" name="userId" placeholder="User ID" required /><br />
+      <button type="submit">Delete Profile</button>
+    </form>
+    <p id="deleteProfileMessage"></p>
+  </section>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    const authHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    // View All Projects
+    document.getElementById('viewProjectsBtn').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/projects');
+        const projects = await res.json();
+
+        const display = projects.map(p =>
+         `🆔 ${p._id}\n📛 ${p.title}\n👤 Owner: ${p.owner?.name || p.owner?._id}\n---`
+        ).join('\n\n');
+
+        document.getElementById('projectsOutput').textContent = display || 'No projects found.';
+      } catch (err) {
+        document.getElementById('projectsOutput').textContent = 'Error loading projects.';
+      }
+    });
+
+
+    // View All Profiles
+    document.getElementById('viewProfilesBtn').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/profiles', { headers: authHeaders });
+        const profiles = await res.json();
+
+        const display = profiles.map(p =>
+          `🆔 User ID: ${p.user._id}\n👤 Name: ${p.user.name}\n📧 Email: ${p.user.email}\n🌍 Location: ${p.location || 'N/A'}\n---`
+        ).join('\n\n');
+
+        document.getElementById('profilesOutput').textContent = display || 'No profiles found.';
+      } catch (err) {
+        document.getElementById('profilesOutput').textContent = 'Error loading profiles.';
+      }
+    });
+
+    // Delete Project
+    document.getElementById('deleteProjectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = e.target.projectId.value.trim();
+      if (!id) return;
+
+      try {
+        const res = await fetch(`/api/projects/${id}/admin`, {
+          method: 'DELETE',
+          headers: authHeaders
+        });
+        const result = await res.json();
+        document.getElementById('deleteProjectMessage').textContent = res.ok
+          ? result.message
+          : result.message || 'Failed to delete.';
+      } catch (err) {
+        document.getElementById('deleteProjectMessage').textContent = 'Error deleting project.';
+      }
+    });
+
+    // Delete Profile
+    document.getElementById('deleteProfileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = e.target.userId.value.trim();
+      if (!userId) return;
+
+      try {
+        const res = await fetch(`/api/profiles/${userId}/admin`, {
+          method: 'DELETE',
+          headers: authHeaders
+        });
+        const result = await res.json();
+        document.getElementById('deleteProfileMessage').textContent = res.ok
+          ? result.message
+          : result.message || 'Failed to delete.';
+      } catch (err) {
+        document.getElementById('deleteProfileMessage').textContent = 'Error deleting profile.';
+      }
+    });
+  </script>
+</body>
+</html>

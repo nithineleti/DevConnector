@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Profile Manager</title>
+</head>
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">DevConnector</h1>
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="projects.html">Projects</a>
+      <a href="profiles.html">Profiles</a>
+      <a href="admin-tools.html">Admin Tools</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+<body>
+  <h1>Manage Your Profile</h1>
+
+  <section>
+    <h2>Create or Update Profile</h2>
+    <form id="profileForm">
+      <textarea name="bio" placeholder="Your bio..."></textarea><br />
+      <input type="text" name="location" placeholder="Location" /><br />
+      <input type="text" name="skills" placeholder="Skills (comma-separated)" required /><br />
+      <input type="url" name="social.github" placeholder="GitHub URL" /><br />
+      <input type="url" name="social.linkedin" placeholder="LinkedIn URL" /><br />
+      <button type="submit">Save Profile</button>
+    </form>
+    <p id="saveMessage"></p>
+  </section>
+
+  <section>
+    <h2>View Your Profile</h2>
+    <button id="viewMyProfileBtn">View My Profile</button>
+    <pre id="myProfileOutput"></pre>
+  </section>
+
+  <section>
+    <h2>View All Profiles</h2>
+    <button id="viewAllBtn">View All Profiles</button>
+    <pre id="allProfilesOutput"></pre>
+  </section>
+
+  <section>
+    <h2>Delete Your Profile</h2>
+    <button id="deleteBtn">Delete My Profile</button>
+    <p id="deleteMessage"></p>
+  </section>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    const setHeaders = () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Save (Create/Update) Profile
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        bio: formData.get('bio'),
+        location: formData.get('location'),
+        skills: formData.get('skills'),
+        social: {
+          github: formData.get('social.github'),
+          linkedin: formData.get('social.linkedin'),
+        }
+      };
+
+      try {
+        const res = await fetch('/api/profiles', {
+          method: 'POST',
+          headers: setHeaders(),
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        const message = document.getElementById('saveMessage');
+        message.textContent = res.ok
+          ? 'Profile saved successfully!'
+          : (result.errors?.map(e => e.msg).join(', ') || result.message);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('saveMessage').textContent = 'Error saving profile.';
+      }
+    });
+
+    // View Own Profile
+    document.getElementById('viewMyProfileBtn').addEventListener('click', async () => {
+      try {
+        const userRes = await fetch('/api/auth/me', { headers: setHeaders() });
+        const user = await userRes.json();
+        if (!user || !user.email) {
+          document.getElementById('myProfileOutput').textContent = 'Unable to get user info.';
+          return;
+        }
+
+        const profileRes = await fetch(`/api/profiles/${user._id}`);
+        const profile = await profileRes.json();
+        document.getElementById('myProfileOutput').textContent = JSON.stringify(profile, null, 2);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('myProfileOutput').textContent = 'Error loading your profile.';
+      }
+    });
+
+    // View All Profiles
+    document.getElementById('viewAllBtn').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/profiles');
+        const profiles = await res.json();
+        document.getElementById('allProfilesOutput').textContent = JSON.stringify(profiles, null, 2);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('allProfilesOutput').textContent = 'Error loading profiles.';
+      }
+    });
+
+    // Delete Profile
+    document.getElementById('deleteBtn').addEventListener('click', async () => {
+      if (!confirm('Are you sure you want to delete your profile?')) return;
+      try {
+        const res = await fetch('/api/profiles', {
+          method: 'DELETE',
+          headers: setHeaders()
+        });
+        const result = await res.json();
+        document.getElementById('deleteMessage').textContent =
+          res.ok ? 'Profile deleted successfully.' : result.message;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('deleteMessage').textContent = 'Error deleting profile.';
+      }
+    });
+  </script>
+</body>
+</html>

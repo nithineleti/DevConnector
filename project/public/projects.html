@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Project Manager</title>
+</head>
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">DevConnector</h1>
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="projects.html">Projects</a>
+      <a href="profiles.html">Profiles</a>
+      <a href="admin-tools.html">Admin Tools</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+<body>
+  <h1>Manage Projects</h1>
+
+  <!-- Create Project -->
+  <section>
+    <h2>Create Project</h2>
+    <form id="createProjectForm">
+      <input type="text" name="title" placeholder="Title" required /><br />
+      <textarea name="description" placeholder="Description"></textarea><br />
+      <input type="text" name="techStack" placeholder="Tech Stack (comma-separated)" /><br />
+      <input type="url" name="repoLink" placeholder="Repository URL" /><br />
+      <button type="submit">Create</button>
+    </form>
+    <p id="createMessage"></p>
+  </section>
+
+  <!-- View All Projects -->
+  <section>
+    <h2>View All Projects</h2>
+      <div class="content-box">
+      <button id="viewAllBtn">Load All Projects</button>
+      <pre id="allProjectsOutput"></pre>
+    </div>
+  </section>
+
+  <!-- View One Project -->
+  <section>
+    <h2>View Project by ID</h2>
+      <div class="content-box">
+      <input type="text" id="projectIdInput" placeholder="Project ID" />
+      <button id="viewOneBtn">View Project</button>
+      <pre id="singleProjectOutput"></pre>
+    </div>
+  </section>
+
+  <!-- Update Project -->
+  <section>
+    <h2>Update Project</h2>
+    <form id="updateProjectForm">
+      <input type="text" name="id" placeholder="Project ID" required /><br />
+      <input type="text" name="title" placeholder="Title (optional)" /><br />
+      <textarea name="description" placeholder="Description"></textarea><br />
+      <input type="text" name="techStack" placeholder="Tech Stack (comma-separated)" /><br />
+      <input type="url" name="repoLink" placeholder="Repository URL" /><br />
+      <button type="submit">Update</button>
+    </form>
+    <p id="updateMessage"></p>
+  </section>
+
+  <!-- Delete Project -->
+  <section>
+    <h2>Delete Project</h2>
+    <div class="content-box">
+      <input type="text" id="deleteProjectId" placeholder="Project ID" />
+      <button id="deleteBtn">Delete Project</button>
+      <p id="deleteMessage"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Upload Screenshot</h2>
+    <form id="uploadScreenshotForm" enctype="multipart/form-data">
+    <input type="text" name="projectId" placeholder="Project ID" required /><br />
+    <input type="file" name="screenshot" accept="image/*" required /><br />
+    <button type="submit">Upload</button>
+    </form>
+    <p id="uploadMessage"></p>
+    <div id="previewArea"></div>
+  </section>
+  
+  <script>
+    const token = localStorage.getItem('token');
+
+    const setHeaders = () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Create
+    document.getElementById('createProjectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        techStack: formData.get('techStack'),
+        repoLink: formData.get('repoLink')
+      };
+
+      try {
+        const res = await fetch('/api/projects', {
+          method: 'POST',
+          headers: setHeaders(),
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        document.getElementById('createMessage').textContent = res.ok
+          ? 'Project created successfully!'
+          : result.errors?.map(e => e.msg).join(', ') || result.message;
+      } catch (err) {
+        document.getElementById('createMessage').textContent = 'Error creating project.';
+      }
+    });
+
+    // View All
+    document.getElementById('viewAllBtn').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/projects');
+        const data = await res.json();
+        document.getElementById('allProjectsOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById('allProjectsOutput').textContent = 'Error loading projects.';
+      }
+    });
+
+    // View One
+    document.getElementById('viewOneBtn').addEventListener('click', async () => {
+      const id = document.getElementById('projectIdInput').value;
+      try {
+        const res = await fetch(`/api/projects/${id}`);
+        const data = await res.json();
+        document.getElementById('singleProjectOutput').textContent = res.ok
+          ? JSON.stringify(data, null, 2)
+          : data.message;
+      } catch (err) {
+        document.getElementById('singleProjectOutput').textContent = 'Error loading project.';
+      }
+    });
+
+    // Update
+    document.getElementById('updateProjectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const id = formData.get('id');
+      const data = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        techStack: formData.get('techStack'),
+        repoLink: formData.get('repoLink')
+      };
+
+      try {
+        const res = await fetch(`/api/projects/${id}`, {
+          method: 'PUT',
+          headers: setHeaders(),
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        document.getElementById('updateMessage').textContent = res.ok
+          ? 'Project updated successfully!'
+          : result.errors?.map(e => e.msg).join(', ') || result.message;
+      } catch (err) {
+        document.getElementById('updateMessage').textContent = 'Error updating project.';
+      }
+    });
+
+    // Delete
+    document.getElementById('deleteBtn').addEventListener('click', async () => {
+      const id = document.getElementById('deleteProjectId').value;
+      if (!id || !confirm('Are you sure you want to delete this project?')) return;
+
+      try {
+        const res = await fetch(`/api/projects/${id}`, {
+          method: 'DELETE',
+          headers: setHeaders()
+        });
+        const result = await res.json();
+        document.getElementById('deleteMessage').textContent = res.ok
+          ? 'Project deleted successfully.'
+          : result.message;
+      } catch (err) {
+        document.getElementById('deleteMessage').textContent = 'Error deleting project.';
+      }
+    });
+    // Upload Screenshot
+  document.getElementById('uploadScreenshotForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData();
+    const projectId = form.projectId.value.trim();
+
+    if (!projectId) {
+      alert("Please enter a valid project ID.");
+      return;
+    }
+
+    formData.append('screenshot', form.screenshot.files[0]);
+
+    try {
+      const res = await fetch(`/api/projects/${projectId}/screenshot`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+      });
+
+      const result = await res.json();
+      const msg = document.getElementById('uploadMessage');
+      const preview = document.getElementById('previewArea');
+
+      if (res.ok) {
+        const imageUrl = `/uploads/${result.screenshot}`;
+        msg.innerHTML = `Screenshot uploaded successfully!<br />
+          <a href="${imageUrl}" target="_blank">View Screenshot</a>`;
+        preview.innerHTML = `<img src="${imageUrl}" alt="Screenshot" width="300" style="margin-top:10px;" />`;
+      } else {
+        msg.textContent = result.message || 'Upload failed.';
+        preview.innerHTML = '';
+      }
+    } catch (err) {
+      console.error(err);
+      document.getElementById('uploadMessage').textContent = 'Upload failed.';
+      document.getElementById('previewArea').innerHTML = '';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Project Interactions</title>
+</head>
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">DevConnector</h1>
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="projects.html">Projects</a>
+      <a href="profiles.html">Profiles</a>
+      <a href="admin-tools.html">Admin Tools</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+<body>
+  <h1>Interact with Projects</h1>
+
+  <!-- View All Projects -->
+  <section>
+    <h2>View All Projects</h2>
+    <button id="loadProjectsBtn">Load Projects</button>
+    <pre id="projectsList"></pre>
+  </section>
+
+  <!-- Like / Unlike Project -->
+  <section>
+    <h2>Like a Project</h2>
+    <form id="likeForm">
+      <input type="text" name="projectId" placeholder="Project ID" required /><br />
+      <button type="submit">Toggle Like</button>
+    </form>
+    <p id="likeMessage"></p>
+  </section>
+
+  <!-- Add Comment -->
+  <section>
+    <h2>Add a Comment</h2>
+    <form id="commentForm">
+      <input type="text" name="projectId" placeholder="Project ID" required /><br />
+      <textarea name="text" placeholder="Your comment..." required></textarea><br />
+      <button type="submit">Submit Comment</button>
+    </form>
+    <p id="commentMessage"></p>
+  </section>
+
+  <!-- View Comments -->
+  <section>
+    <div class="content-box">
+    <!-- <form id="commentList"> -->
+      <h2>View Comments</h2>
+      <input type="text" id="viewProjectId" placeholder="Project ID" />
+      <button id="viewCommentsBtn">Load Comments</button>
+    <!-- </form> -->
+      <pre id="commentsOutput"></pre>
+    </div>
+  </section>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    const authHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    // Load All Projects
+    document.getElementById('loadProjectsBtn').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/projects');
+        const projects = await res.json();
+
+        const display = projects.map(p => 
+          `🆔 ${p._id}\n📛 ${p.title}\n❤️ ${p.likes?.length || 0} like(s)\n---`
+        ).join('\n\n');
+
+        document.getElementById('projectsList').textContent = display || 'No projects found.';
+      } catch (err) {
+        document.getElementById('projectsList').textContent = 'Error loading projects.';
+      }
+    });
+
+    // Like / Unlike Project
+    document.getElementById('likeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const projectId = form.projectId.value.trim();
+      if (!projectId) return;
+
+      try {
+        const res = await fetch(`/api/projects/${projectId}/like`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const result = await res.json();
+        document.getElementById('likeMessage').textContent = res.ok
+          ? `Project now has ${result.likes} like(s).`
+          : result.message;
+      } catch (err) {
+        document.getElementById('likeMessage').textContent = 'Error liking project.';
+      }
+    });
+
+    // Submit Comment
+    document.getElementById('commentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const projectId = form.projectId.value.trim();
+      const text = form.text.value.trim();
+
+      if (!projectId || !text) return;
+
+      try {
+        const res = await fetch(`/api/projects/${projectId}/comments`, {
+          method: 'POST',
+          headers: authHeaders,
+          body: JSON.stringify({ text })
+        });
+
+        const result = await res.json();
+        document.getElementById('commentMessage').textContent = res.ok
+          ? 'Comment added!'
+          : result.message;
+      } catch (err) {
+        document.getElementById('commentMessage').textContent = 'Error adding comment.';
+      }
+    });
+
+    // View Comments
+    document.getElementById('viewCommentsBtn').addEventListener('click', async () => {
+      const projectId = document.getElementById('viewProjectId').value.trim();
+      if (!projectId) return;
+
+      try {
+        const res = await fetch(`/api/projects/${projectId}`);
+        const project = await res.json();
+
+        if (!Array.isArray(project.comments)) {
+          document.getElementById('commentsOutput').textContent = 'No comments found.';
+          return;
+        }
+
+        const commentsText = project.comments.map(c =>
+          `• ${c.text} (at ${new Date(c.createdAt).toLocaleString()})`
+        ).join('\n\n');
+
+        document.getElementById('commentsOutput').textContent = commentsText || 'No comments yet.';
+      } catch (err) {
+        document.getElementById('commentsOutput').textContent = 'Error loading comments.';
+      }
+    });
+  </script>
+</body>
+</html>

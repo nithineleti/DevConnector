@@ -1,0 +1,82 @@
+[
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a101",
+      "bio": "Frontend enthusiast with a love for UI/UX design.",
+      "location": "New York, NY",
+      "skills": ["React", "HTML", "CSS", "JavaScript"],
+      "social": {
+        "github": "https://github.com/alicemorgan",
+        "linkedin": "https://linkedin.com/in/alicemorgan"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a102",
+      "bio": "Backend developer passionate about scalable systems.",
+      "location": "San Francisco, CA",
+      "skills": ["Node.js", "Express", "MongoDB", "Docker"],
+      "social": {
+        "github": "https://github.com/bencarter",
+        "linkedin": "https://linkedin.com/in/bencarter"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a103",
+      "bio": "Full-stack developer and lifelong learner.",
+      "location": "Austin, TX",
+      "skills": ["Vue", "Node.js", "GraphQL"],
+      "social": {
+        "github": "https://github.com/clarajames",
+        "linkedin": "https://linkedin.com/in/clarajames"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a104",
+      "bio": "Problem solver and JavaScript ninja.",
+      "location": "Seattle, WA",
+      "skills": ["JavaScript", "TypeScript", "React", "Next.js"],
+      "social": {
+        "github": "https://github.com/danielkim",
+        "linkedin": "https://linkedin.com/in/danielkim"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a105",
+      "bio": "Building the web one pixel at a time.",
+      "location": "Chicago, IL",
+      "skills": ["HTML", "CSS", "Sass", "Figma"],
+      "social": {
+        "github": "https://github.com/evathompson",
+        "linkedin": "https://linkedin.com/in/evathompson"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a106",
+      "bio": "Passionate about performance and clean code.",
+      "location": "Miami, FL",
+      "skills": ["JavaScript", "React", "Redux", "Jest"],
+      "social": {
+        "github": "https://github.com/felixramirez",
+        "linkedin": "https://linkedin.com/in/felixramirez"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a107",
+      "bio": "Engineer by day, artist by night.",
+      "location": "Los Angeles, CA",
+      "skills": ["Python", "Django", "PostgreSQL"],
+      "social": {
+        "github": "https://github.com/gracescott",
+        "linkedin": "https://linkedin.com/in/gracescott"
+      }
+    },
+    {
+      "user": "6612f1eaf1a2c1a2b1a1a108",
+      "bio": "Leading with code and coffee.",
+      "location": "Boston, MA",
+      "skills": ["DevOps", "AWS", "Kubernetes", "Node.js"],
+      "social": {
+        "github": "https://github.com/henryblack",
+        "linkedin": "https://linkedin.com/in/henryblack"
+      }
+    }
+  ]

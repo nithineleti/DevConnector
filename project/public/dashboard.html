@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Dashboard</title>
+</head>
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">DevConnector</h1>
+    <nav class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="projects.html">Projects</a>
+      <a href="profiles.html">Profiles</a>
+      <a href="admin-tools.html">Admin Tools</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+<body>
+  <h1>Welcome to your Dashboard</h1>
+
+  
+  <p><strong>Name:</strong> <span id="name"></span></p>
+  <p><strong>Email:</strong> <span id="email"></span></p>
+  <p><strong>Role:</strong> <span id="role"></span></p>
+  <button onclick="logout()">Logout</button>
+  <p id="message"></p>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const message = document.getElementById('message');
+
+    if (!token) {
+      message.textContent = 'No token found. Please log in first.';
+    } else {
+      fetch('/api/auth/me', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.name && data.email && data.role) {
+          document.getElementById('name').textContent = data.name;
+          document.getElementById('email').textContent = data.email;
+          document.getElementById('role').textContent = data.role;
+        } else {
+          message.textContent = data.message || 'Failed to fetch user info.';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        message.textContent = 'Something went wrong.';
+      });
+    }
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>

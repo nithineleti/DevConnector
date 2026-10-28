@@ -1,0 +1,90 @@
+[
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a101",
+      "title": "TaskMaster Pro",
+      "description": "A productivity app that helps users manage tasks, set goals, and track progress with sleek UI components.",
+      "techStack": ["React", "Node.js", "MongoDB"],
+      "repoLink": "https://github.com/alicemorgan/taskmaster-pro",
+      "likes": ["6612f1eaf1a2c1a2b1a1a102", "6612f1eaf1a2c1a2b1a1a104"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a102",
+          "text": "Super clean interface. Great job!"
+        },
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a107",
+          "text": "I’d love to contribute to this!"
+        }
+      ]
+    },
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a102",
+      "title": "API Metrics Dashboard",
+      "description": "A backend service to monitor API performance, including request/response times and error rates.",
+      "techStack": ["Express", "MongoDB", "Chart.js"],
+      "repoLink": "https://github.com/bencarter/api-metrics-dashboard",
+      "likes": ["6612f1eaf1a2c1a2b1a1a106"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a106",
+          "text": "Exactly what I needed for my own APIs!"
+        }
+      ]
+    },
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a103",
+      "title": "DevConnector",
+      "description": "A social platform for developers to connect, post projects, and collaborate on code.",
+      "techStack": ["Vue", "Node.js", "MongoDB"],
+      "repoLink": "https://github.com/clarajames/devconnector",
+      "likes": ["6612f1eaf1a2c1a2b1a1a105", "6612f1eaf1a2c1a2b1a1a107"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a105",
+          "text": "This is such a helpful idea for bootcamp students."
+        }
+      ]
+    },
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a104",
+      "title": "Quizzy",
+      "description": "A dynamic quiz web app with categories, scores, and timers.",
+      "techStack": ["Next.js", "Tailwind", "MongoDB"],
+      "repoLink": "https://github.com/danielkim/quizzy",
+      "likes": ["6612f1eaf1a2c1a2b1a1a101", "6612f1eaf1a2c1a2b1a1a108"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a101",
+          "text": "I got addicted playing this 😂"
+        }
+      ]
+    },
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a108",
+      "title": "InfraWatch",
+      "description": "DevOps monitoring tool for server health, uptime, and logs aggregation.",
+      "techStack": ["Node.js", "AWS", "Grafana"],
+      "repoLink": "https://github.com/henryblack/infrawatch",
+      "likes": ["6612f1eaf1a2c1a2b1a1a106"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a106",
+          "text": "Impressive use of Grafana and log streaming!"
+        }
+      ]
+    },
+    {
+      "owner": "6612f1eaf1a2c1a2b1a1a106",
+      "title": "SnapStyle",
+      "description": "Upload photos and apply real-time filters using canvas and WebGL.",
+      "techStack": ["JavaScript", "WebGL", "HTML5"],
+      "repoLink": "https://github.com/felixramirez/snapstyle",
+      "likes": ["6612f1eaf1a2c1a2b1a1a103"],
+      "comments": [
+        {
+          "user": "6612f1eaf1a2c1a2b1a1a103",
+          "text": "Love the creative UI — fun and functional."
+        }
+      ]
+    }
+  ]

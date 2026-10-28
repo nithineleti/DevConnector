@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevConnector Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/frontend/styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar glass">
+    <div class="brand-wrap">
+      <span class="brand-mark">DC</span>
+      <div>
+        <h1>DevConnector Studio</h1>
+        <p>Build, showcase, and collaborate</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span id="authState" class="pill">Guest</span>
+      <button id="logoutBtn" class="btn ghost hidden">Logout</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="hero glass reveal">
+      <h2>Creative portfolios for serious developers</h2>
+      <p>
+        This interface is connected directly to your Express API. Register, log in, manage your profile,
+        create projects, and interact with community work in one place.
+      </p>
+      <div class="hero-stats">
+        <article>
+          <span id="statProjects">0</span>
+          <small>Projects</small>
+        </article>
+        <article>
+          <span id="statProfiles">0</span>
+          <small>Profiles</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="auth-grid">
+      <article class="panel glass reveal">
+        <h3>Create Account</h3>
+        <form id="registerForm" class="stack">
+          <input type="text" name="name" placeholder="Full name" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button class="btn" type="submit">Register</button>
+        </form>
+      </article>
+
+      <article class="panel glass reveal">
+        <h3>Sign In</h3>
+        <form id="loginForm" class="stack">
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button class="btn" type="submit">Login</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="dashboard panel glass reveal" id="dashboard">
+      <div class="section-head">
+        <h3>My Session</h3>
+        <button id="refreshMeBtn" class="btn ghost">Refresh</button>
+      </div>
+      <div id="meCard" class="me-card">Login to load your identity.</div>
+    </section>
+
+    <section class="manager-grid">
+      <article class="panel glass reveal">
+        <div class="section-head">
+          <h3>Profile Manager</h3>
+          <button id="loadProfilesBtn" class="btn ghost">Load Profiles</button>
+        </div>
+        <form id="profileForm" class="stack">
+          <textarea name="bio" placeholder="Bio" rows="3"></textarea>
+          <input type="text" name="location" placeholder="Location" />
+          <input type="text" name="skills" placeholder="Skills (comma separated)" />
+          <input type="url" name="github" placeholder="GitHub URL" />
+          <input type="url" name="linkedin" placeholder="LinkedIn URL" />
+          <div class="inline-btns">
+            <button class="btn" type="submit">Save Profile</button>
+            <button class="btn danger" type="button" id="deleteProfileBtn">Delete Profile</button>
+          </div>
+        </form>
+        <div id="profilesFeed" class="feed"></div>
+      </article>
+
+      <article class="panel glass reveal">
+        <div class="section-head">
+          <h3>Project Manager</h3>
+          <button id="loadProjectsBtn" class="btn ghost">Load Projects</button>
+        </div>
+        <form id="projectForm" class="stack">
+          <input type="text" name="title" placeholder="Project title" required />
+          <textarea name="description" placeholder="Description" rows="3"></textarea>
+          <input type="text" name="techStack" placeholder="Tech Stack (comma separated)" />
+          <input type="url" name="repoLink" placeholder="Repository URL" />
+          <button class="btn" type="submit">Create Project</button>
+        </form>
+        <div id="projectsFeed" class="feed"></div>
+      </article>
+    </section>
+
+    <section class="console panel glass reveal">
+      <div class="section-head">
+        <h3>Activity Console</h3>
+        <button id="clearLogBtn" class="btn ghost">Clear</button>
+      </div>
+      <div id="logArea" class="log-area"></div>
+    </section>
+  </main>
+
+  <script src="/frontend/app.js"></script>
+</body>
+</html>

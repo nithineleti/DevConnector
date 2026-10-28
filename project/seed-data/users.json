@@ -1,0 +1,58 @@
+[
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a101",
+      "name": "Alice Morgan",
+      "email": "alice.morgan@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a102",
+      "name": "Ben Carter",
+      "email": "ben.carter@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a103",
+      "name": "Clara James",
+      "email": "clara.james@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a104",
+      "name": "Daniel Kim",
+      "email": "daniel.kim@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a105",
+      "name": "Eva Thompson",
+      "email": "eva.thompson@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a106",
+      "name": "Felix Ramirez",
+      "email": "felix.ramirez@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a107",
+      "name": "Grace Scott",
+      "email": "grace.scott@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "user"
+    },
+    {
+      "_id": "6612f1eaf1a2c1a2b1a1a108",
+      "name": "Henry Black",
+      "email": "henry.black@example.com",
+      "password": "$2b$10$5WjIKN1XJpXqlWIQQI6KeuAOw/3SBhHaKXop8jA4flJAzJk5KDf7K",
+      "role": "admin"
+    }
+  ]
